@@ -108,4 +108,25 @@ variable "tags" {
   default     = {}
 }
 
+variable "ARM_CLIENT_ID" {
+  type        = string
+  description = "The client ID of the Azure Service Principal."
+}
+
+variable "ARM_CLIENT_SECRET" {
+  type        = string
+  description = "The client secret of the Azure Service Principal."
+  sensitive   = true  # Marking as sensitive to keep the value secure
+}
+
+variable "ARM_TENANT_ID" {
+  type        = string
+  description = "The tenant ID of the Azure Service Principal."
+}
+
+variable "ARM_SUBSCRIPTION_ID" {
+  type        = string
+  description = "The Azure Subscription ID."
+}
+
 
