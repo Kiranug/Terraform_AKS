@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-backend
+  labels:
+    app: nginx-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-backend
+  template:
+    metadata:
+      labels:
+        app: nginx-backend
+      annotations:
+        prometheus.io/scrape: "true"       # Enable scraping
+        prometheus.io/port: "9113"         # Port where the exporter metrics are exposed
+        prometheus.io/path: "/metrics"     # Path to metrics endpoint
+    spec:
+      containers:
+        - name: nginx-backend
+          image: nginxdemos/hello:latest
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nginx/conf.d/status.conf
+              subPath: status.conf
+        - name: nginx-prometheus-exporter
+          image: nginx/nginx-prometheus-exporter:latest
+          args:
+            - "--nginx.scrape-uri=http://localhost:80/stub_status"  # Scrape stub_status endpoint
+          ports:
+            - name: metrics
+              containerPort: 9113
+      volumes:
+        - name: config-volume
+          configMap:
+            name: status-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: status-config
+data:
+  status.conf: |-
+    server {
+      listen 8080;
+
+      location /stub_status {
+        stub_status;
+      }
+    }

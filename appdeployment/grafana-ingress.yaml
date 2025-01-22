@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /  # Ensures proper URL rewriting
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Disables HTTPS redirection if you're not using SSL
+spec:
+  rules:
+  - host: myapp.example.com  # Replace with your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana  # Name of the Grafana service
+            port:
+              number: 80

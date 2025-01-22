@@ -1,0 +1,6 @@
+rg_name                 = "my-prod-rg"
+location                = "West US"
+environment             = "prod"
+backend_rg_name         = "infra-rg"
+backend_storage_account = "terraformtfstatekiran"
+backend_container_name  = "tfstate"
