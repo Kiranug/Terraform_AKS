@@ -1,4 +1,4 @@
-terraform {
+/*terraform {
   backend "azurerm" {
     resource_group_name  = "infra-rg"
     storage_account_name = "terraformtfstatekiran"
@@ -6,3 +6,4 @@ terraform {
     key                  = "terraform.tfstateenv:dev"
   }
 }
+*/
