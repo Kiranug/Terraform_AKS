@@ -1,11 +1,24 @@
 terraform {
+  cloud {
+    organization = "KTECH-CLOUD" # Replace with your Terraform Cloud organization name
+
+    workspaces {
+      name = "Terraform_AKS" # Replace with the Terraform Cloud workspace name
+    }
+  }
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 3.0"
     }
   }
+
   required_version = ">= 1.3.0"
+}
+
+provider "azurerm" {
+  features {}
 }
 
 provider "azurerm" {
